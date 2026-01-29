@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a4d2e">
+  <link rel="manifest" href="manifest.json">
+  <title>Madrid 2026</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --green: #1a4d2e;
+      --green-light: #2d6a4f;
+      --green-dark: #0f2d1a;
+      --bg: #f5f5f5;
+      --text: #1a1a1a;
+      --muted: #666;
+      --border: #ddd;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    header {
+      background: var(--green);
+      color: white;
+      padding: 16px;
+      padding-top: calc(16px + env(safe-area-inset-top));
+    }
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    header p {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+    .tabs {
+      display: flex;
+      background: var(--green-dark);
+      overflow-x: auto;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px 8px;
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      min-width: 70px;
+    }
+    .tab.active {
+      color: white;
+      background: var(--green-light);
+    }
+    .tab span {
+      display: block;
+      font-size: 0.7rem;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+    .day-content {
+      display: none;
+      padding: 12px;
+    }
+    .day-content.active {
+      display: block;
+    }
+    .day-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #e8f0eb;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+    }
+    .toggle-container label {
+      color: var(--green);
+      font-weight: 500;
+    }
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--green-light);
+      cursor: pointer;
+    }
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--green-light);
+      transition: 0.2s;
+    }
+    .toggle-slider:before {
+      content: '';
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      transition: 0.2s;
+    }
+    .toggle input:checked + .toggle-slider {
+      background: #5a7d9a;
+    }
+    .toggle input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+    }
+    .toggle-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .item {
+      background: white;
+      padding: 12px;
+      margin-bottom: 8px;
+      border-left: 3px solid var(--green);
+    }
+    .item-main {
+      display: flex;
+      gap: 12px;
+    }
+    .item-time {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--green);
+      min-width: 55px;
+      flex-shrink: 0;
+    }
+    .item-activity {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    .item-location {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .item-details {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      line-height: 1.4;
+    }
+    .item-details span {
+      display: block;
+      margin-bottom: 2px;
+    }
+    .note {
+      background: #fafafa;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-left: 2px solid var(--border);
+      margin-top: 12px;
+      line-height: 1.4;
+    }
+    .booking-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      padding: 2px 5px;
+      margin-left: 6px;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+    .booking-tag.confirmed {
+      background: #d4edda;
+      color: #155724;
+    }
+    .booking-tag.recommended {
+      background: #fff3cd;
+      color: #856404;
+    }
+    .map-link {
+      display: inline-block;
+      margin-left: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Madrid 2026</h1>
+    <p>30 Jan – 2 Feb · Palacio de Atocha</p>
+  </header>
+  
+  <nav class="tabs">
+    <button class="tab active" data-day="fri">Fri<span>30 Jan</span></button>
+    <button class="tab" data-day="sat">Sat<span>31 Jan</span></button>
+    <button class="tab" data-day="sun">Sun<span>1 Feb</span></button>
+    <button class="tab" data-day="mon">Mon<span>2 Feb</span></button>
+  </nav>
+
+  <main>
+    <section class="day-content active" id="fri">
+      <h2 class="day-title">Arrival & Barrio de las Letras</h2>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">18:30</div>
+          <div>
+            <div class="item-activity">Land in Madrid</div>
+            <div class="item-location">Ryanair from Stansted</div>
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">~19:30</div>
+          <div>
+            <div class="item-activity">Check-in</div>
+            <div class="item-location">Palacio de Atocha<a href="https://www.google.com/maps/dir/?api=1&destination=Hotel+Palacio+de+Atocha+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>Airport → hotel: 30–40 min taxi</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">18:30</div>
+          <div>
+            <div class="item-activity">Reset walk / coffee</div>
+            <div class="item-location">Sol / Arenal area<a href="https://www.google.com/maps/dir/?api=1&destination=Puerta+del+Sol+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>0–5 min walk</span>
+          <span>Optional buffer before dinner</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">20:00</div>
+          <div>
+            <div class="item-activity">Dinner: El Barril de las Letras<span class="booking-tag confirmed">Confirmed</span></div>
+            <div class="item-location">El Barril de las Letras<a href="https://www.google.com/maps/dir/?api=1&destination=El+Barril+de+las+Letras+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>12–15 min walk · 5–7 min taxi</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">22:30</div>
+          <div>
+            <div class="item-activity">Cocktails: Salmon Guru</div>
+            <div class="item-location">Salmon Guru<a href="https://www.google.com/maps/dir/?api=1&destination=Salmon+Guru+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>5–7 min walk from dinner</span>
+          <span>Walk-in only. Expect short queue after 22:00</span>
+        </div>
+      </div>
+      <div class="note">
+        <strong>Tip:</strong> Look for gold-letter quotes in the pavement (Cervantes, Lope de Vega, Quevedo)
+      </div>
+    </section>
+
+    <section class="day-content" id="sat">
+      <h2 class="day-title">Art, Salamanca & Seafood</h2>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">09:45</div>
+          <div>
+            <div class="item-activity">Depart for Prado</div>
+            <div class="item-location">Prado Museum<a href="https://www.google.com/maps/dir/?api=1&destination=Museo+Nacional+del+Prado+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>8–10 min taxi · 22–25 min walk</span>
+          <span>Taxi recommended to arrive fresh</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">10:30</div>
+          <div>
+            <div class="item-activity">Museo Nacional del Prado<span class="booking-tag recommended">Book online</span></div>
+            <div class="item-location">Prado<a href="https://www.google.com/maps/dir/?api=1&destination=Museo+Nacional+del+Prado+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>Book online to skip queues. Hard stop at 13:00</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">13:00</div>
+          <div>
+            <div class="item-activity">Coffee / short rest</div>
+            <div class="item-location">Near Prado</div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>0–5 min walk. Reset before Salamanca</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">13:30</div>
+          <div>
+            <div class="item-activity">Transfer to Salamanca</div>
+            <div class="item-location">La Trainera<a href="https://www.google.com/maps/dir/?api=1&destination=La+Trainera+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>12–15 min taxi (walking not recommended)</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">14:00</div>
+          <div>
+            <div class="item-activity">Lunch: La Trainera<span class="booking-tag confirmed">Confirmed</span></div>
+            <div class="item-location">La Trainera, Calle de Lagasca<a href="https://www.google.com/maps/dir/?api=1&destination=La+Trainera+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>Reservation 14:00–14:15</span>
+          <span>Traditional fast-paced service; premium pricing</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">16:00</div>
+          <div>
+            <div class="item-activity">Shopping block</div>
+            <div class="item-location">Serrano / Salamanca<a href="https://www.google.com/maps/dir/?api=1&destination=El+Corte+Ingles+Serrano+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>Until ~19:30</span>
+          <span>Get tourist card (~10%) first at El Corte Inglés</span>
+          <span>VAT refund initiation available</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">Night</div>
+          <div>
+            <div class="item-activity">Malasaña tapas & bars</div>
+            <div class="item-location">Malasaña<a href="https://www.google.com/maps/dir/?api=1&destination=Bodega+de+la+Ardosa+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>8–10 min taxi · 18–22 min walk</span>
+          <span>Suggested: Bodega de la Ardosa</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="day-content" id="sun">
+      <div class="toggle-container">
+        <label>Rainy day?</label>
+        <label class="toggle">
+          <input type="checkbox" id="rainy-toggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label" id="weather-label">☀️ Normal plan</span>
+      </div>
+      
+      <div id="sun-normal">
+        <h2 class="day-title">Markets & Royal Madrid</h2>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">11:00</div>
+            <div>
+              <div class="item-activity">Mercado de San Miguel</div>
+              <div class="item-location">Mercado de San Miguel<a href="https://www.google.com/maps/dir/?api=1&destination=Mercado+de+San+Miguel+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>6–8 min walk. Until ~12:15</span>
+            <span>Go earlier to reduce crowding</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">12:15</div>
+            <div>
+              <div class="item-activity">Decompression break</div>
+              <div class="item-location">Plaza Mayor<a href="https://www.google.com/maps/dir/?api=1&destination=Plaza+Mayor+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>0–10 min walk. Recommended before Palace</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">13:00</div>
+            <div>
+              <div class="item-activity">Walk to Royal Palace</div>
+              <div class="item-location">Royal Palace<a href="https://www.google.com/maps/dir/?api=1&destination=Palacio+Real+de+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>10–12 min walk from market</span>
+            <span>Arrive early to protect entry timing</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">14:00</div>
+            <div>
+              <div class="item-activity">Royal Palace of Madrid<span class="booking-tag recommended">Timed ticket</span></div>
+              <div class="item-location">Palacio Real<a href="https://www.google.com/maps/dir/?api=1&destination=Palacio+Real+de+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>Sunday winter closing 16:00; last entry 15:00</span>
+            <span>If queue >30–40 min: exterior + Sabatini Gardens</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">16:00</div>
+            <div>
+              <div class="item-activity">Madrid de los Austrias walk</div>
+              <div class="item-location">Plaza de la Villa<a href="https://www.google.com/maps/dir/?api=1&destination=Plaza+de+la+Villa+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>Until ~17:30. Low-effort historic loop</span>
+            <span>Plaza de la Villa area</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">19:00</div>
+            <div>
+              <div class="item-activity">Farewell rooftop drinks</div>
+              <div class="item-location">Picalagartos<a href="https://www.google.com/maps/dir/?api=1&destination=Picalagartos+Sky+Bar+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>Picalagartos: 8–10 min walk</span>
+            <span>Círculo de Bellas Artes: 10–12 min walk</span>
+            <span>Arrive earlier for best seating/sunset</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="sun-rainy" style="display: none;">
+        <h2 class="day-title">Rainy Day Plan</h2>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">11:00</div>
+            <div>
+              <div class="item-activity">Brunch / light lunch indoors</div>
+              <div class="item-location">Near Sol or Ópera</div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>Until ~12:15. 5–10 min walk or taxi</span>
+            <span>Choose a seated café instead of Mercado</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">12:30</div>
+            <div>
+              <div class="item-activity">Royal Palace – interior first<span class="booking-tag recommended">Book ahead</span></div>
+              <div class="item-location">Palacio Real<a href="https://www.google.com/maps/dir/?api=1&destination=Palacio+Real+de+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>Until ~13:45. 10–12 min walk or short taxi</span>
+            <span>Go straight inside to avoid rain</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">14:00</div>
+            <div>
+              <div class="item-activity">Indoor museum alternative</div>
+              <div class="item-location">Optional</div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>Until ~15:00. 5–15 min walk or taxi</span>
+            <span>Options: Royal Collections Gallery or Thyssen-Bornemisza</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">16:30</div>
+            <div>
+              <div class="item-activity">Indoor café / cultural stop</div>
+              <div class="item-location">Círculo de Bellas Artes<a href="https://www.google.com/maps/dir/?api=1&destination=Circulo+de+Bellas+Artes+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>Until ~17:30. 0–10 min walk</span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-main">
+            <div class="item-time">19:00</div>
+            <div>
+              <div class="item-activity">Farewell drinks (indoor)</div>
+              <div class="item-location">Círculo de Bellas Artes<a href="https://www.google.com/maps/dir/?api=1&destination=Circulo+de+Bellas+Artes+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            </div>
+          </div>
+          <div class="item-details">
+            <span>8–12 min walk. Stay indoors if windy/rainy</span>
+          </div>
+        </div>
+        <div class="note">
+          <strong>Decision rule:</strong> If rain is light/intermittent, keep normal plan. If steady rain or cold, use this fallback.
+        </div>
+      </div>
+    </section>
+
+    <section class="day-content" id="mon">
+      <h2 class="day-title">Departure</h2>
+      <div class="item">
+        <div class="item-main">
+          <div class="item-time">05:10</div>
+          <div>
+            <div class="item-activity">Flight to Stansted</div>
+            <div class="item-location">Madrid-Barajas Airport<a href="https://www.google.com/maps/dir/?api=1&destination=Madrid+Barajas+Airport&travelmode=driving" class="map-link" target="_blank">📍</a></div>
+          </div>
+        </div>
+        <div class="item-details">
+          <span>Hotel → airport: 30–40 min taxi</span>
+          <span>Leave hotel ~03:00</span>
+        </div>
+      </div>
+      <div class="note">
+        <strong>Tip:</strong> Keep taxis for Salamanca and late-night returns; most Centro legs are best on foot.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Tab navigation
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.day-content');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.day).classList.add('active');
+      });
+    });
+
+    // Sunday rainy toggle
+    const rainyToggle = document.getElementById('rainy-toggle');
+    const sunNormal = document.getElementById('sun-normal');
+    const sunRainy = document.getElementById('sun-rainy');
+    const weatherLabel = document.getElementById('weather-label');
+
+    rainyToggle.addEventListener('change', () => {
+      if (rainyToggle.checked) {
+        sunNormal.style.display = 'none';
+        sunRainy.style.display = 'block';
+        weatherLabel.textContent = '🌧️ Rainy plan';
+      } else {
+        sunNormal.style.display = 'block';
+        sunRainy.style.display = 'none';
+        weatherLabel.textContent = '☀️ Normal plan';
+      }
+    });
+
+    // Auto-select current day
+    const today = new Date();
+    const dayMap = {
+      30: 'fri',
+      31: 'sat',
+      1: 'sun',
+      2: 'mon'
+    };
+    const month = today.getMonth();
+    const date = today.getDate();
+    
+    // January 30-31 or February 1-2
+    if ((month === 0 && (date === 30 || date === 31)) || 
+        (month === 1 && (date === 1 || date === 2))) {
+      const dayKey = dayMap[date];
+      if (dayKey) {
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        document.querySelector(`[data-day="${dayKey}"]`).classList.add('active');
+        document.getElementById(dayKey).classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
