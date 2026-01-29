@@ -35,6 +35,9 @@
       color: white;
       padding: 16px;
       padding-top: calc(16px + env(safe-area-inset-top));
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     header h1 {
       font-size: 1.5rem;
@@ -49,6 +52,9 @@
       display: flex;
       background: var(--green-dark);
       overflow-x: auto;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     .tab {
       flex: 1;
@@ -239,7 +245,7 @@
           <div class="item-time">~19:30</div>
           <div>
             <div class="item-activity">Check-in</div>
-            <div class="item-location">Palacio de Atocha<a href="https://www.google.com/maps/dir/?api=1&destination=Hotel+Palacio+de+Atocha+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">Palacio de Atocha<a href="https://www.google.com/maps/search/?api=1&query=Hotel+Palacio+de+Atocha+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -248,23 +254,10 @@
       </div>
       <div class="item">
         <div class="item-main">
-          <div class="item-time">18:30</div>
-          <div>
-            <div class="item-activity">Reset walk / coffee</div>
-            <div class="item-location">Sol / Arenal area<a href="https://www.google.com/maps/dir/?api=1&destination=Puerta+del+Sol+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
-          </div>
-        </div>
-        <div class="item-details">
-          <span>0–5 min walk</span>
-          <span>Optional buffer before dinner</span>
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-main">
           <div class="item-time">20:00</div>
           <div>
             <div class="item-activity">Dinner: El Barril de las Letras<span class="booking-tag confirmed">Confirmed</span></div>
-            <div class="item-location">El Barril de las Letras<a href="https://www.google.com/maps/dir/?api=1&destination=El+Barril+de+las+Letras+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">El Barril de las Letras<a href="https://www.google.com/maps/search/?api=1&query=El+Barril+de+las+Letras+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -276,7 +269,7 @@
           <div class="item-time">22:30</div>
           <div>
             <div class="item-activity">Cocktails: Salmon Guru</div>
-            <div class="item-location">Salmon Guru<a href="https://www.google.com/maps/dir/?api=1&destination=Salmon+Guru+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">Salmon Guru<a href="https://www.google.com/maps/search/?api=1&query=Salmon+Guru+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -296,7 +289,7 @@
           <div class="item-time">09:45</div>
           <div>
             <div class="item-activity">Depart for Prado</div>
-            <div class="item-location">Prado Museum<a href="https://www.google.com/maps/dir/?api=1&destination=Museo+Nacional+del+Prado+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">Prado Museum<a href="https://www.google.com/maps/search/?api=1&query=Museo+Nacional+del+Prado+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -309,7 +302,7 @@
           <div class="item-time">10:30</div>
           <div>
             <div class="item-activity">Museo Nacional del Prado<span class="booking-tag recommended">Book online</span></div>
-            <div class="item-location">Prado<a href="https://www.google.com/maps/dir/?api=1&destination=Museo+Nacional+del+Prado+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">Prado<a href="https://www.google.com/maps/search/?api=1&query=Museo+Nacional+del+Prado+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -333,7 +326,7 @@
           <div class="item-time">13:30</div>
           <div>
             <div class="item-activity">Transfer to Salamanca</div>
-            <div class="item-location">La Trainera<a href="https://www.google.com/maps/dir/?api=1&destination=La+Trainera+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">La Trainera<a href="https://www.google.com/maps/search/?api=1&query=La+Trainera+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -345,7 +338,7 @@
           <div class="item-time">14:00</div>
           <div>
             <div class="item-activity">Lunch: La Trainera<span class="booking-tag confirmed">Confirmed</span></div>
-            <div class="item-location">La Trainera, Calle de Lagasca<a href="https://www.google.com/maps/dir/?api=1&destination=La+Trainera+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">La Trainera, Calle de Lagasca<a href="https://www.google.com/maps/search/?api=1&query=La+Trainera+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -358,7 +351,7 @@
           <div class="item-time">16:00</div>
           <div>
             <div class="item-activity">Shopping block</div>
-            <div class="item-location">Serrano / Salamanca<a href="https://www.google.com/maps/dir/?api=1&destination=El+Corte+Ingles+Serrano+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">Serrano / Salamanca<a href="https://www.google.com/maps/search/?api=1&query=El+Corte+Ingles+Serrano+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
@@ -372,13 +365,16 @@
           <div class="item-time">Night</div>
           <div>
             <div class="item-activity">Malasaña tapas & bars</div>
-            <div class="item-location">Malasaña<a href="https://www.google.com/maps/dir/?api=1&destination=Bodega+de+la+Ardosa+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">Malasaña<a href="https://www.google.com/maps/search/?api=1&query=Bodega+de+la+Ardosa+Madrid" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
           <span>8–10 min taxi · 18–22 min walk</span>
           <span>Suggested: Bodega de la Ardosa</span>
         </div>
+      </div>
+      <div class="note">
+        <strong>Tip:</strong> Sol / Arenal area is great for a quick coffee or reset walk (0–5 min from hotel)
       </div>
     </section>
 
@@ -399,7 +395,7 @@
             <div class="item-time">11:00</div>
             <div>
               <div class="item-activity">Mercado de San Miguel</div>
-              <div class="item-location">Mercado de San Miguel<a href="https://www.google.com/maps/dir/?api=1&destination=Mercado+de+San+Miguel+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Mercado de San Miguel<a href="https://www.google.com/maps/search/?api=1&query=Mercado+de+San+Miguel+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -412,7 +408,7 @@
             <div class="item-time">12:15</div>
             <div>
               <div class="item-activity">Decompression break</div>
-              <div class="item-location">Plaza Mayor<a href="https://www.google.com/maps/dir/?api=1&destination=Plaza+Mayor+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Plaza Mayor<a href="https://www.google.com/maps/search/?api=1&query=Plaza+Mayor+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -424,7 +420,7 @@
             <div class="item-time">13:00</div>
             <div>
               <div class="item-activity">Walk to Royal Palace</div>
-              <div class="item-location">Royal Palace<a href="https://www.google.com/maps/dir/?api=1&destination=Palacio+Real+de+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Royal Palace<a href="https://www.google.com/maps/search/?api=1&query=Palacio+Real+de+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -437,7 +433,7 @@
             <div class="item-time">14:00</div>
             <div>
               <div class="item-activity">Royal Palace of Madrid<span class="booking-tag recommended">Timed ticket</span></div>
-              <div class="item-location">Palacio Real<a href="https://www.google.com/maps/dir/?api=1&destination=Palacio+Real+de+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Palacio Real<a href="https://www.google.com/maps/search/?api=1&query=Palacio+Real+de+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -450,7 +446,7 @@
             <div class="item-time">16:00</div>
             <div>
               <div class="item-activity">Madrid de los Austrias walk</div>
-              <div class="item-location">Plaza de la Villa<a href="https://www.google.com/maps/dir/?api=1&destination=Plaza+de+la+Villa+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Plaza de la Villa<a href="https://www.google.com/maps/search/?api=1&query=Plaza+de+la+Villa+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -463,7 +459,7 @@
             <div class="item-time">19:00</div>
             <div>
               <div class="item-activity">Farewell rooftop drinks</div>
-              <div class="item-location">Picalagartos<a href="https://www.google.com/maps/dir/?api=1&destination=Picalagartos+Sky+Bar+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Picalagartos<a href="https://www.google.com/maps/search/?api=1&query=Picalagartos+Sky+Bar+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -494,7 +490,7 @@
             <div class="item-time">12:30</div>
             <div>
               <div class="item-activity">Royal Palace – interior first<span class="booking-tag recommended">Book ahead</span></div>
-              <div class="item-location">Palacio Real<a href="https://www.google.com/maps/dir/?api=1&destination=Palacio+Real+de+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Palacio Real<a href="https://www.google.com/maps/search/?api=1&query=Palacio+Real+de+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -520,7 +516,7 @@
             <div class="item-time">16:30</div>
             <div>
               <div class="item-activity">Indoor café / cultural stop</div>
-              <div class="item-location">Círculo de Bellas Artes<a href="https://www.google.com/maps/dir/?api=1&destination=Circulo+de+Bellas+Artes+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Círculo de Bellas Artes<a href="https://www.google.com/maps/search/?api=1&query=Circulo+de+Bellas+Artes+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -532,7 +528,7 @@
             <div class="item-time">19:00</div>
             <div>
               <div class="item-activity">Farewell drinks (indoor)</div>
-              <div class="item-location">Círculo de Bellas Artes<a href="https://www.google.com/maps/dir/?api=1&destination=Circulo+de+Bellas+Artes+Madrid&travelmode=walking" class="map-link" target="_blank">📍</a></div>
+              <div class="item-location">Círculo de Bellas Artes<a href="https://www.google.com/maps/search/?api=1&query=Circulo+de+Bellas+Artes+Madrid" class="map-link" target="_blank">📍</a></div>
             </div>
           </div>
           <div class="item-details">
@@ -552,7 +548,7 @@
           <div class="item-time">05:10</div>
           <div>
             <div class="item-activity">Flight to Stansted</div>
-            <div class="item-location">Madrid-Barajas Airport<a href="https://www.google.com/maps/dir/?api=1&destination=Madrid+Barajas+Airport&travelmode=driving" class="map-link" target="_blank">📍</a></div>
+            <div class="item-location">Madrid-Barajas Airport<a href="https://www.google.com/maps/search/?api=1&query=Madrid+Barajas+Airport" class="map-link" target="_blank">📍</a></div>
           </div>
         </div>
         <div class="item-details">
