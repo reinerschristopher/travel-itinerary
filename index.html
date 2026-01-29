@@ -563,6 +563,12 @@
   </main>
 
   <script>
+    // Set tabs sticky position based on actual header height
+    const header = document.querySelector('header');
+    const tabsNav = document.querySelector('.tabs');
+    const headerHeight = header.offsetHeight;
+    tabsNav.style.top = `${headerHeight}px`;
+
     // Tab navigation
     const tabs = document.querySelectorAll('.tab');
     const contents = document.querySelectorAll('.day-content');
