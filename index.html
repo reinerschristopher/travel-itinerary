@@ -67,10 +67,16 @@
       border: none;
       background: none;
       min-width: 70px;
+      transition: background 250ms ease-out, color 250ms ease-out;
     }
     .tab.active {
       color: white;
       background: var(--green-light);
+    }
+    @media (hover: hover) {
+      .tab:hover:not(.active) {
+        background: rgba(45, 106, 79, 0.3);
+      }
     }
     .tab span {
       display: block;
@@ -81,9 +87,21 @@
     .day-content {
       display: none;
       padding: 12px;
+      opacity: 0;
+      animation: fadeInUp 300ms ease-out forwards;
     }
     .day-content.active {
       display: block;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     .day-title {
       font-size: 1.1rem;
@@ -147,6 +165,13 @@
       padding: 12px;
       margin-bottom: 8px;
       border-left: 3px solid var(--green);
+      transition: box-shadow 200ms ease-out, transform 150ms ease-out;
+    }
+    @media (hover: hover) {
+      .item:active {
+        transform: scale(0.995);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      }
     }
     .item-main {
       display: flex;
@@ -212,6 +237,17 @@
       text-decoration: none;
       font-size: 0.85rem;
       vertical-align: middle;
+      transition: transform 150ms ease-out;
+    }
+    .map-link:active {
+      transform: scale(1.2);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -590,12 +626,32 @@
 
     rainyToggle.addEventListener('change', () => {
       if (rainyToggle.checked) {
-        sunNormal.style.display = 'none';
-        sunRainy.style.display = 'block';
+        // Fade out normal, fade in rainy
+        sunNormal.style.transition = 'opacity 300ms ease-out';
+        sunNormal.style.opacity = '0';
+        setTimeout(() => {
+          sunNormal.style.display = 'none';
+          sunRainy.style.display = 'block';
+          sunRainy.style.opacity = '0';
+          requestAnimationFrame(() => {
+            sunRainy.style.transition = 'opacity 300ms ease-out';
+            sunRainy.style.opacity = '1';
+          });
+        }, 300);
         weatherLabel.textContent = '🌧️ Rainy plan';
       } else {
-        sunNormal.style.display = 'block';
-        sunRainy.style.display = 'none';
+        // Fade out rainy, fade in normal
+        sunRainy.style.transition = 'opacity 300ms ease-out';
+        sunRainy.style.opacity = '0';
+        setTimeout(() => {
+          sunRainy.style.display = 'none';
+          sunNormal.style.display = 'block';
+          sunNormal.style.opacity = '0';
+          requestAnimationFrame(() => {
+            sunNormal.style.transition = 'opacity 300ms ease-out';
+            sunNormal.style.opacity = '1';
+          });
+        }, 300);
         weatherLabel.textContent = '☀️ Normal plan';
       }
     });
